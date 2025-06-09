@@ -1,0 +1,26 @@
+# Android
+/android/
+/build/
+/android/app/build/
+
+# iOS
+/ios/
+/ios/Flutter/App.framework
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Dart/Pub
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+/build/
+
+# Local configs
+local.properties
+*.swp
+*.env
+*.keystore
