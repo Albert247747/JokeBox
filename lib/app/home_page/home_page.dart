@@ -8,7 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/app/home_page/bloc/cubit_home.dart';
 import 'package:todo/app/home_page/bloc/state_home_.dart';
-import 'package:todo/data/data_provaider/Internet_data.dart';
+import 'package:todo/data/data_provaider/joke_data_provider.dart';
 import 'package:todo/domain/repositores/joke_repository.dart';
 
 

@@ -1,4 +1,4 @@
-import 'package:todo/data/data_provaider/Internet_data.dart';
+import 'package:todo/data/data_provaider/joke_data_provider.dart';
 import 'package:todo/domain/model/joke_model.dart';
 
 class JokeRepository {
