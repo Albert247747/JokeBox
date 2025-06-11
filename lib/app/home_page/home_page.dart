@@ -53,7 +53,6 @@ class _JokeHomeViewPageState extends State<JokeHomeViewPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<CubitHome, JokeState>(
       builder: (BuildContext context, state) {
-        print('curren state: $state');
       switch(state){
         case JokeLoading():
         return const Center(child: CircularProgressIndicator(),);

@@ -1,26 +1,21 @@
-# Android
-/android/
-/build/
-/android/app/build/
-
-# iOS
-/ios/
-/ios/Flutter/App.framework
+# Flutter/Dart
+.dart_tool/
+.packages
+.buildlog/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
 
 # IDE
 .idea/
 .vscode/
-*.iml
 
-# Dart/Pub
-.dart_tool/
-.packages
-.pub-cache/
-.pub/
-/build/
+# Build
+build/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
 
-# Local configs
-local.properties
-*.swp
-*.env
-*.keystore
+# Android
+android/.gradle/
+android/local.properties

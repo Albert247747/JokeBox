@@ -7,7 +7,7 @@ final JokeDataProvider _dataProvaider;
 JokeRepository({ required JokeDataProvider jokeDataProvaider })
   :_dataProvaider = jokeDataProvaider;
 
-Future<JokeModels> getFacts() async{
+Future<JokeModels> getJoke() async{
 return await _dataProvaider.getFact();
   }
 }
