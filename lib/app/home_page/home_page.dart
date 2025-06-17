@@ -9,7 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/app/home_page/bloc/cubit_home.dart';
 import 'package:todo/app/home_page/bloc/state_home_.dart';
 import 'package:todo/data/data_provaider/joke_data_provider.dart';
-import 'package:todo/domain/repositores/joke_repository.dart';
+import 'package:todo/data/data_provaider/translate_data_provider.dart';
+import 'package:todo/data/repositores/joke_repository.dart';
+import 'package:todo/domain/model/joke_model.dart';
+
 
 
 
@@ -17,7 +20,10 @@ class JokeHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context){
    return  BlocProvider(
-     create: (context) => (CubitHome(repository: JokeRepository(jokeDataProvaider: JokeDataProvider()))),
+     create: (context) => (CubitHome(repository: JokeRepository(
+         jokeDataProvaider:  JokeDataProvider(),
+         translatedprovider: TranslateDataProvider(),
+     ))),
      child: Scaffold(
       appBar: AppBar(
         centerTitle: true,

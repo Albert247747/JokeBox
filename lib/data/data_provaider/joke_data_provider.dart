@@ -3,11 +3,12 @@ import 'dart:convert';
 import 'package:todo/domain/model/joke_model.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:translator/translator.dart';
 
 
 
 class JokeDataProvider {
-  Future<JokeModels> getFact() async{
+  Future<JokeModels> getJoke() async{
     try{
       final response = await http.get(
     Uri.parse('https://official-joke-api.appspot.com/random_joke'),
@@ -21,7 +22,6 @@ class JokeDataProvider {
     } catch (e) {
       throw Exception('Произошла ошибка: $e');
     }
-
   }
 }
 

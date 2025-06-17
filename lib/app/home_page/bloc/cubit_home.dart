@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:todo/app/home_page/bloc/state_home_.dart';
+import 'package:todo/data/repositores/joke_repository.dart';
 import 'package:todo/domain/model/joke_model.dart';
-import 'package:todo/domain/repositores/joke_repository.dart';
 import 'package:translator/translator.dart';
 
 
@@ -17,7 +17,7 @@ CubitHome({required this.repository})
   Future<void> fetchJoke() async {
     emit(JokeLoading());
     try {
-    final data = await repository.getJoke();
+    final data = await repository.getJokeTranslate();
     emit(JokeSuccess(data.setup, data.punchline));
     }on Exception catch (e){
       emit(const JokeError(message: 'Ошибка'));
