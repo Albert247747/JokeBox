@@ -16,114 +16,182 @@ import 'package:todo/domain/model/joke_model.dart';
 
 
 
-class JokeHomePage extends StatelessWidget {
+class JokeHomePage extends StatelessWidget{
   @override
   Widget build(BuildContext context){
-   return  BlocProvider(
-     create: (context) => (CubitHome(repository: JokeRepository(
-         jokeDataProvaider:  JokeDataProvider(),
-         translatedprovider: TranslateDataProvider(),
-     ))),
-     child: Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text(
-          'Joke',
-          style: TextStyle(
-            fontSize: 25,
-            color: Color(0xff1F1D2B),
-            fontWeight: FontWeight.normal,
-          ),
-        ),
-      backgroundColor: Color(0xffEA7C69),
+    return BlocProvider(
+      create: (context) => (CubitHome
+        (repository: JokeRepository(
+          jokeDataProvaider: JokeDataProvider(),
+          translatedprovider: TranslateDataProvider()
+      ))
       ),
-       body: JokeHomeViewPage(),
-     ),
-   );
-  }
-}
-
-
-class JokeHomeViewPage extends StatefulWidget {
-  @override
-  State<JokeHomeViewPage> createState() => _JokeHomeViewPageState();
-}
-
-class _JokeHomeViewPageState extends State<JokeHomeViewPage> {
-  @override
-  void initState(){
-      super.initState();
-      BlocProvider.of<CubitHome>(context).fetchJoke();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<CubitHome, JokeState>(
-      builder: (BuildContext context, state) {
-      switch(state){
-        case JokeLoading():
-        return const Center(child: CircularProgressIndicator(),);
-        case JokeSuccess():
-          return  Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text('${state.setup} \n ${state.punchline}',
+      child:  Scaffold(
+        backgroundColor: Color(0xFF1F1D2B),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              expandedHeight: 140,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text('Daily Jokes',
                   style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18
+                      fontSize: 26,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white,
+                      shadows: [
+                        Shadow(
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.3),
+                            offset: Offset(0,9)
+                        )
+                      ]
                   ),
                 ),
-                SizedBox(height: 50,),
-                ElevatedButton(
-                    onPressed: (){
-                      BlocProvider.of<CubitHome>(context).fetchJoke();
-                    },
-                    child: Text('Поменять'))
-              ],
-            ),
-          );
-        case JokeError():
-          return const Center(
-            child: Text('Ошибка',
-              style: TextStyle(
-                fontSize: 18,
-                color:
-                  Colors.white
+                centerTitle: true,
+                background: Container(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [
+                            Color(0xFFE0E0E0 ).withOpacity(0.4),
+                            Color(0xFF1F1D2B),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter
+                      )
+                  ),
+                ),
               ),
+              centerTitle: true,
             ),
-          );
-      }
-      },
+            SliverFillRemaining(
+              child: JokeHomePageView(),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
+class JokeHomePageView extends StatefulWidget {
+  const JokeHomePageView({super.key});
 
+  @override
+  State<JokeHomePageView> createState() => _JokeHomePageViewState();
+}
 
+class _JokeHomePageViewState extends State<JokeHomePageView> {
+  @override
+  void initState(){
+    super.initState();
+    BlocProvider.of<CubitHome>(context).fetchJoke();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CubitHome, JokeState>(
+        builder: (BuildContext context, state) {
+          switch (state){
+            case JokeLoading():
+              return const Center(child: CircularProgressIndicator(color: Colors.white,),
+              );
+            case JokeSuccess():
+              return Padding(
+                padding: EdgeInsets.all(24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 300,
+                      decoration: BoxDecoration(
+                          color: Color(0xFF252836),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              blurRadius: 10,
+                              offset: Offset(0,3),
+                            ),
+                          ]
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('${state.setup}',
+                            style: TextStyle(
+                                fontSize: 18,
+                                height: 1.5,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 24,),
+                          Container(
+                            width: 100,
+                            height: 2,
+                            decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Colors.transparent,
+                                      Color(0xFFE0E0E0).withOpacity(0.5),
+                                      Colors.transparent
+                                    ]
+                                )
+                            ),
+                          ),
+                          SizedBox(height: 24,),
 
-
-
-
-
-
-
-
-
-
-
-// FutureBuilder<JokeModels>(
-// future: dataProvider.getFact(),
-// builder: (context, snapshot){
-// if(snapshot.hasData){
-// return Text(snapshot.data!.setup);
-
-
-
-
-// }else if (snapshot.hasError){
-// return Text('${snapshot.error}');
-// }
-// return const CircularProgressIndicator();
-// }
-// )
-
+                          Text('${state.punchline}',
+                            style: TextStyle(
+                                fontSize: 16,
+                                height: 1.5,
+                                color: Colors.white54,
+                                fontStyle: FontStyle.italic
+                            ),
+                            textAlign: TextAlign.center,
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 40,),
+                    ElevatedButton(
+                        onPressed: (){
+                          BlocProvider.of<CubitHome>(context).fetchJoke();
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white54,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 32,
+                                vertical: 16
+                            ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)
+                            )
+                        ),
+                        child: Text('Следующая шутка',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white
+                          ),
+                        )
+                    )
+                  ],
+                ),
+              );
+            case JokeError():
+              return const Center(
+                child: Text('Ошибка',
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.red
+                  ),
+                ),
+              );
+          }
+        }
+    );
+  }
+}
