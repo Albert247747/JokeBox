@@ -9,10 +9,12 @@ class JokeLoading extends JokeState{
   List<Object> get props => [];
 }
 class JokeSuccess extends JokeState{
-  const JokeSuccess(this.setup, this.punchline);
+   JokeSuccess(this.setup, this.punchline, this.id,this.isInFavourite);
 
   final String setup;
   final String punchline;
+  final String id;
+  final bool isInFavourite;
 
   @override
   List<Object> get props => [];

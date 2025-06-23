@@ -11,7 +11,7 @@ import 'package:todo/app/home_page/bloc/state_home_.dart';
 import 'package:todo/data/data_provaider/joke_data_provider.dart';
 import 'package:todo/data/data_provaider/translate_data_provider.dart';
 import 'package:todo/data/repositores/joke_repository.dart';
-import 'package:todo/domain/model/joke_model.dart';
+import 'package:todo/app/favourite_page/favourite_joke_page.dart';
 
 
 
@@ -69,6 +69,14 @@ class JokeHomePage extends StatelessWidget{
             )
           ],
         ),
+        floatingActionButton:  FloatingActionButton(
+          onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FavouriteJokePage()));
+          },
+          child: Icon(Icons.list_rounded,color: Colors.white,),
+          backgroundColor: Color(0xFF252836),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
+        ),
       ),
     );
   }
@@ -82,6 +90,9 @@ class JokeHomePageView extends StatefulWidget {
 }
 
 class _JokeHomePageViewState extends State<JokeHomePageView> {
+
+  bool isPressed  = false;
+
   @override
   void initState(){
     super.initState();
@@ -116,8 +127,43 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
                           ]
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          Row(
+                            children: [
+                              SizedBox(width: 225),
+                              BlocBuilder<CubitHome, JokeState>(
+                                builder: (context, state) {
+
+                                  final iconColor = (state is JokeSuccess && state.isInFavourite)
+                                  ? Colors.amberAccent
+                                  : Colors.white;
+
+                                  return ElevatedButton(
+                                      onPressed: () {
+                                        if(state is JokeSuccess){
+                                        // context.read<CubitHome>().addToFavorites(id);
+                                        }
+                                    setState(() {
+                                      isPressed = !isPressed;
+                                    });
+                                  },
+                                  child: Icon(
+                                  Icons.bookmark,
+                                  color: iconColor
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black12,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  ));
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 25,),
                           Text('${state.setup}',
                             style: TextStyle(
                                 fontSize: 18,
@@ -161,7 +207,7 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
                           BlocProvider.of<CubitHome>(context).fetchJoke();
                         },
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white54,
+                            backgroundColor: Color(0xFF252836),
                             padding: EdgeInsets.symmetric(
                                 horizontal: 32,
                                 vertical: 16
@@ -177,7 +223,8 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
                               color: Colors.white
                           ),
                         )
-                    )
+                    ),
+                    SizedBox(height: 20,),
                   ],
                 ),
               );

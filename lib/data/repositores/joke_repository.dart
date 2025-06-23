@@ -21,8 +21,13 @@ class JokeRepository {
     var joke = await _dataProvaider.getJoke();
     var jokeSetup = await _translatedprovider.translate(joke.setup);
     var jokePunchline = await _translatedprovider.translate(joke.punchline);
-    return JokeModels(setup: jokeSetup, punchline: jokePunchline);
+    var jokeId = joke.id;
+    return JokeModels(setup: jokeSetup, punchline: jokePunchline, id: jokeId);
   }
+
+  Future<void> addFavouritesJoke() async{}
+  Future<void> removeFavouritesJoke() async{}
+
 }
 
 
