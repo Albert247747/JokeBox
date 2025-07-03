@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +8,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/app/home_page/bloc/cubit_home.dart';
 import 'package:todo/app/home_page/bloc/state_home_.dart';
 import 'package:todo/data/data_provaider/joke_data_provider.dart';
+import 'package:todo/data/data_provaider/key_value_data_provider.dart';
 import 'package:todo/data/data_provaider/translate_data_provider.dart';
 import 'package:todo/data/repositores/joke_repository.dart';
-import 'package:todo/app/favourite_page/favourite_joke_page.dart';
+import 'package:todo/app/favourite_page/favorite_jokes_page.dart';
+import 'package:provider/provider.dart';
+
 
 
 
@@ -22,6 +24,7 @@ class JokeHomePage extends StatelessWidget{
     return BlocProvider(
       create: (context) => (CubitHome
         (repository: JokeRepository(
+          jokeKeyValueDataProvaider: KeyValueDataProvider(),
           jokeDataProvaider: JokeDataProvider(),
           translatedprovider: TranslateDataProvider()
       ))
@@ -70,11 +73,20 @@ class JokeHomePage extends StatelessWidget{
           ],
         ),
         floatingActionButton:  FloatingActionButton(
-          onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context) => FavouriteJokePage()));
-          },
-          child: Icon(Icons.list_rounded,color: Colors.white,),
-          backgroundColor: Color(0xFF252836),
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Provider<KeyValueDataProvider>(
+                    create: (_) => KeyValueDataProvider(),
+                    child:  FavouriteJokePage(),
+                  ),
+                ),
+              );
+              ;
+            },
+            child: Icon(Icons.list_rounded,color: Colors.white,),
+            backgroundColor: Color(0xFF252836),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))
         ),
       ),
@@ -91,7 +103,7 @@ class JokeHomePageView extends StatefulWidget {
 
 class _JokeHomePageViewState extends State<JokeHomePageView> {
 
-  bool isPressed  = false;
+
 
   @override
   void initState(){
@@ -134,19 +146,16 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
                               SizedBox(width: 225),
                               BlocBuilder<CubitHome, JokeState>(
                                 builder: (context, state) {
-
-                                  final iconColor = (state is JokeSuccess && state.isInFavourite)
+                                  final iconColor = (state as JokeSuccess).isInFavourite
                                   ? Colors.amberAccent
                                   : Colors.white;
-
                                   return ElevatedButton(
                                       onPressed: () {
-                                        if(state is JokeSuccess){
-                                        // context.read<CubitHome>().addToFavorites(id);
-                                        }
-                                    setState(() {
-                                      isPressed = !isPressed;
-                                    });
+                                       if( state.isInFavourite){
+                                         context.read<CubitHome>().removeToFavorite();
+                                       }else{
+                                         context.read<CubitHome>().addToFavorite();
+                                       }
                                   },
                                   child: Icon(
                                   Icons.bookmark,
@@ -166,10 +175,11 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
                           SizedBox(height: 25,),
                           Text('${state.setup}',
                             style: TextStyle(
+                              fontFamily: 'Nunito',
                                 fontSize: 18,
                                 height: 1.5,
                                 color: Colors.white,
-                                fontWeight: FontWeight.w600
+                                fontWeight: FontWeight.w700
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -191,10 +201,12 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
 
                           Text('${state.punchline}',
                             style: TextStyle(
+                              fontFamily: 'Nunito',
                                 fontSize: 16,
                                 height: 1.5,
                                 color: Colors.white54,
-                                fontStyle: FontStyle.italic
+                                fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400
                             ),
                             textAlign: TextAlign.center,
                           )
@@ -218,8 +230,9 @@ class _JokeHomePageViewState extends State<JokeHomePageView> {
                         ),
                         child: Text('Следующая шутка',
                           style: TextStyle(
+                            fontFamily: 'Nunito',
                               fontSize: 16,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
                               color: Colors.white
                           ),
                         )

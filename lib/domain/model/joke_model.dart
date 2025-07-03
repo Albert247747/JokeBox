@@ -12,6 +12,11 @@ class JokeModels {
         punchline: json['punchline'], setup: json['setup'], id: json['id']
     );
   }
+  Map<String, dynamic> toJson(){
+    return {
+      'id' : id,
+      'punchline' : punchline,
+      'setup' : setup
+    };
+  }
 }
-
-

@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 
 sealed class JokeState extends Equatable{
   const JokeState();
+
+
 }
 class JokeLoading extends JokeState{
   @override
@@ -17,7 +19,7 @@ class JokeSuccess extends JokeState{
   final bool isInFavourite;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [setup, punchline, id, isInFavourite];
 
 }
   class JokeError extends JokeState{
