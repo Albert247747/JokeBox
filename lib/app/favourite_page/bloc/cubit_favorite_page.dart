@@ -26,7 +26,6 @@ Future<void> loadJokeFavorite() async{
     print(stack);
     emit(JokeError('Не удалось загрузить избранное'));
   }
-  
 }
 
   Future<void> deleteFavorite() async{

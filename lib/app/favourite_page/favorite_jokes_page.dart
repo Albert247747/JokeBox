@@ -98,11 +98,11 @@ class FavouriteJokePage extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Spacer(),
+                                const Spacer(),
                                 IconButton(
                                     onPressed: () async {
-                                      await context.read<KeyValueDataProvider>().removeList('favorite_jokes');
-                                      context.read<FavoriteJokesCubit>().loadJokeFavorite();
+                                      await context.read<KeyValueDataProvider>().removeJokeFromList('favorite_jokes', joke.id);
+                                       await context.read<FavoriteJokesCubit>().loadJokeFavorite();
                                     },
                                     icon: Icon(Icons.delete, color: Colors.red,)
                                 )
